@@ -9,3 +9,23 @@ Caching
 [![Latest Stable Version](https://poser.pugx.org/xp-forge/caching/version.png)](https://packagist.org/packages/xp-forge/caching)
 
 Data caching.
+
+```php
+use util\data\Caching;
+
+$cache= Caching::inFileSystem('.')->withTTL(3600);
+$cache->store('key', 'value');
+
+// Will yield the stored value
+$value= $cache->retrieve('key');
+
+// Will yield NULL
+sleep(3600);
+$value= $cache->retrieve('key');
+
+// Removes any cached item and returns it
+$removed= $cache->remove('key');
+
+// Will invoke the function as there is no cached item
+$value= $cache->item('key', fn($key) => $database->fetch('config.'.$key));
+```

@@ -60,13 +60,13 @@ class Persistent extends Cache {
    * invoking a given function and storing its result in this cache.
    *
    * @param  string $key
-   * @param  function(): var $fetch
+   * @param  function(?string): var $fetch
    * @return var
    */
   public function item(string $key, callable $fetch) {
     if ($item= $this->store[$key] ?? null) return $item[0];
 
-    $item= $fetch();
+    $item= $fetch($key);
     $this->store[$key]= [$item];
     return $item;
   }

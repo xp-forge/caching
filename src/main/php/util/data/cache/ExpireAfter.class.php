@@ -88,7 +88,7 @@ class ExpireAfter extends Cache {
    * invoking a given function and storing its result in this cache.
    *
    * @param  string $key
-   * @param  function(): var $fetch
+   * @param  function(?string): var $fetch
    * @return var
    */
   public function item(string $key, callable $fetch) {
@@ -97,7 +97,7 @@ class ExpireAfter extends Cache {
       // Fall through and overwrite expired items
     }
 
-    $item= $fetch();
+    $item= $fetch($key);
     $this->store[$key]= [$item, ($this->time)() + $this->duration];
     return $item;
   }

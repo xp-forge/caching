@@ -66,6 +66,13 @@ abstract class CacheTest {
   }
 
   #[Test]
+  public function non_existant_item_function_receives_key() {
+    $cache= $this->cache();
+
+    Assert::equals(['self' => $this], $cache->item('self', function($key) { return [$key => $this]; }));
+  }
+
+  #[Test]
   public function item() {
     $cache= $this->cache();
     $cache->store('self', $this);
