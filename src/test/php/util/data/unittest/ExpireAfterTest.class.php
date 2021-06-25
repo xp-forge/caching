@@ -25,7 +25,7 @@ class ExpireAfterTest extends CacheTest {
     $clock= $cache->use($this->clock());
 
     $cache->store('name', 'original');
-    $clock->forward(self::EXPIRES + 1);
+    $clock->forward(self::EXPIRES);
     Assert::false($cache->contains('name'));
   }
 
@@ -35,7 +35,7 @@ class ExpireAfterTest extends CacheTest {
     $clock= $cache->use($this->clock());
 
     $cache->store('name', 'original');
-    $clock->forward(self::EXPIRES + 1);
+    $clock->forward(self::EXPIRES);
     Assert::equals('replaced', $cache->item('name', function() { return 'replaced'; }));
   }
 
@@ -45,7 +45,7 @@ class ExpireAfterTest extends CacheTest {
     $clock= $cache->use($this->clock());
 
     $cache->store('self', $this);
-    $clock->forward(self::EXPIRES + 1);
+    $clock->forward(self::EXPIRES);
     Assert::null($cache->retrieve('self'));
   }
 
@@ -55,7 +55,7 @@ class ExpireAfterTest extends CacheTest {
     $clock= $cache->use($this->clock());
 
     $cache->store('self', $this);
-    $clock->forward(self::EXPIRES + 1);
+    $clock->forward(self::EXPIRES);
     Assert::null($cache->remove('self'));
   }
 }
