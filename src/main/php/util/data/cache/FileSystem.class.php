@@ -1,5 +1,6 @@
 <?php namespace util\data\cache;
 
+use ReturnTypeWillChange;
 use io\{Folder, File, Files, Path};
 
 /** @test util.data.unittest.FileSystemTest */
@@ -26,23 +27,27 @@ class FileSystem implements Store {
   }
 
   /** Isset operator */
+  #[ReturnTypeWillChange]
   public function offsetExists($key) {
     $f= new File($this->base, md5($key));
     return $f->exists();
   }
 
   /** Offset operator, read */
+  #[ReturnTypeWillChange]
   public function offsetGet($key) {
     $f= new File($this->base, md5($key));
     return $f->exists() ? unserialize(Files::read($f)) : null;
   }
 
   /** Offset operator, write */
+  #[ReturnTypeWillChange]
   public function offsetSet($key, $value) {
     Files::write(new File($this->base, md5($key)), serialize($value));
   }
 
   /** Unset operator */
+  #[ReturnTypeWillChange]
   public function offsetUnset($key) {
     $f= new File($this->base, md5($key));
     $f->exists() && $f->unlink();
