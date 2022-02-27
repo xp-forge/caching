@@ -13,6 +13,23 @@ Data caching.
 ```php
 use util\data\Caching;
 
+// Select storage
+$caching= Caching::inFileSystem('.');
+$caching= Caching::inMemory();
+$caching= Caching::inRedis('redis://localhost');
+
+// Configure default entry lifetime
+$cache= $caching->withTTL(3600);
+
+// Limit cache size
+$cache= $caching->keepMRU(100);
+$cache= $caching->limitedTo(1024 * 1024);
+```
+
+```php
+use util\data\Caching;
+use util\Date;
+
 $cache= Caching::inFileSystem('.')->withTTL(3600);
 $cache->store('key', 'value');
 
@@ -28,4 +45,12 @@ $removed= $cache->remove('key');
 
 // Will invoke the function as there is no cached item
 $value= $cache->item('key', fn($key) => $database->fetch('config.'.$key));
+```
+
+```php
+$cache->store('short-term', 'value', ttl: 300);
+$cache->store('dayfly', 'value', until: new Date('tomorrow'));
+
+// Prolong key's lifetime 
+$cache->update('key');
 ```
